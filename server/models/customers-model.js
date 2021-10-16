@@ -1,6 +1,7 @@
-const { DataTypes } = require('sequelize');
+// const { DataTypes } = require('sequelize');
 
-module.exports = (sequelize = require('sequelize')) => {
+module.exports = (sequelize, DataTypes) => {
+  // const { DataTypes } = Sequelize;
   const Customer = sequelize.define('Customer', {
     cid: {
       type: DataTypes.UUID,
@@ -41,6 +42,22 @@ module.exports = (sequelize = require('sequelize')) => {
     updatedAt: 'updated_at',
     // paranoid: true
   })
+
+  Customer.associate = models => {
+    Customer.belongsToMany(models.StoreProduct, { 
+      through: models.OrderList,
+      unique: false,
+      foreignKey: 'customers_cid',
+    });
+
+    Customer.hasMany(models.Order, {
+      foreignKey: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        name: 'customers_cid'
+      }
+    })
+  }
 
   return Customer;
 }

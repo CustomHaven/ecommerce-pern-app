@@ -1,6 +1,7 @@
-const { DataTypes } = require('sequelize');
+// const { DataTypes } = require('sequelize');
 
-module.exports = (sequelize = require('sequelize')) => {
+module.exports = (sequelize, DataTypes) => {
+  // const { DataTypes } = Sequelize;
   const Order = sequelize.define('Order', {
     oid: {
       type: DataTypes.UUID,

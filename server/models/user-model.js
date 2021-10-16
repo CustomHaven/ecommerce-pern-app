@@ -1,7 +1,7 @@
 // const db = require('../db');
-const { DataTypes } = require('sequelize');
+// const { DataTypes } = require('sequelize');
 
-module.exports = (sequelize = require('sequelize')) => {
+module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     uid: {
       type: DataTypes.UUID,

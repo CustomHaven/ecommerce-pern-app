@@ -1,101 +1,28 @@
-const { DataTypes } = require('sequelize');
-const User = require('./user-model');
-const Dealer = require('./dealers-model');
-const DealerProduct = require('./dealer-products-model');
-const StoreProduct = require('./store-products-model');
-const Customer = require('./customers-model');
-const Order = require('./orders-model');
+const fs = require('fs');
+const path = require('path');
+const { DataTypes, Sequelize } = require('sequelize');
+const db = require('../db');
+const basename = path.basename(__filename);
+const Models = {};
 
-module.exports = async (sequelize = require('../db')) => {
-  const user = User(sequelize);
-  const dealer = Dealer(sequelize);
-  const dealerProducts = DealerProduct(sequelize);
-  const storeProduct = StoreProduct(sequelize);
-  const customer = Customer(sequelize);
-  const order = Order(sequelize);
+fs.readdirSync(__dirname)
+  .filter(file => file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js')
+  // .map(arra => arra.replace(/^\w|\-\w/g, text => text.toUpperCase()))
+  // .map(a => a.replace(/[-]|model|\.js$/gi, ''))
+  // .map(l => l.replace(/s$/, ''))
+  .forEach((file) => {
+    console.log(file)
+    const model = require(path.join(__dirname, file))(db, DataTypes);
+    Models[model.name] = model;
+});
 
-  // Making Fkey inside dealerProducts and dealer is the Fkey
-  dealer.hasOne(dealerProducts, {
-    foreignKey: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      name: "dealers_did",
-    }
-  });
-
-  dealerProducts.belongsTo(dealer, {
-    foreignKey: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      name: "dealers_did",
-    }
-  });
-
-  // Making Fkey inside storeProducts and dealerProducts is the Fkey
-  dealerProducts.hasOne(storeProduct, {
-    foreignKey: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      name: 'dealer_product_dpid'
-    }
-  })
-
-  storeProduct.belongsTo(dealerProducts, {
-    foreignKey: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      name: 'dealer_product_dpid'
-    }
-  });
-
-  // Many-to-many relation between Customer and Store_products
-
-  const OrderList = sequelize.define('OrderList', {
-    quantity: {
-      type: DataTypes.INTEGER
-    },
-    price: {
-      type: DataTypes.DECIMAL(10, 2)
-    }
-  }, {
-    tableName: 'order_list',
-    timestamps: true,
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
-    // paranoid: true
-  });
-
-  customer.belongsToMany(storeProduct, { 
-    through: OrderList,
-    unique: false,
-    foreignKey: 'customers_cid',
-  });
-
-  storeProduct.belongsToMany(customer, { 
-    through: OrderList,
-    unique: false,
-    foreignKey: 'store_products_spid',
-  });
-
-  // One-To-Many relationship between customer and order
-
-  customer.hasMany(order, {
-    foreignKey: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      name: 'customers_cid'
-    }
-  })
-
-  sequelize.sync({ alter: true }); //force: true
-
-  return {
-    user,
-    dealer,
-    dealerProducts,
-    storeProduct,
-    customer,
-    OrderList,
-    order
+Object.keys(Models).forEach(modelName => {
+  if (Models[modelName].associate) {
+    Models[modelName].associate(Models)
   }
-}
+})
+
+Models.sequelize = db.sync({ alter: true })
+Models.Sequelize = Sequelize
+
+module.exports = Models;

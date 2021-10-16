@@ -1,8 +1,8 @@
 // const db = require('../db');
-const { DataTypes } = require('sequelize');
+// const { DataTypes } = require('sequelize');
 
-module.exports = (sequelize = require('../db')) => {
-
+module.exports = (sequelize, DataTypes) => {
+  // const { DataTypes } = Sequelize;
   const DealerProduct = sequelize.define('DealerProduct', {
     dpid: {
       type: DataTypes.UUID,
@@ -42,9 +42,27 @@ module.exports = (sequelize = require('../db')) => {
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
-    freezeTableName: true
+    // freezeTableName: true
     // paranoid: true
-  })
+  });
+
+  DealerProduct.associate = models => {
+    DealerProduct.belongsTo(models.Dealer, { 
+      foreignKey: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        name: "dealers_did",
+      }
+    });
+
+    DealerProduct.hasOne(models.StoreProduct, {
+      foreignKey: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        name: 'dealer_product_dpid'
+      }
+    })
+  };
 
   return DealerProduct;
 }
