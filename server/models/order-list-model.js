@@ -14,5 +14,5 @@ module.exports = (sequelize, DataTypes) => {
     // paranoid: true
   });
 
-  return OrderList
+  return OrderList;
 }

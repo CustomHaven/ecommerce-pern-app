@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha specs/models/model.spec.js --watch",
+    "test": "mocha specs/models/model.spec.js --watch",
     "start": "nodemon server.js",
     "go": "node models/index.js"
   },

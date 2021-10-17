@@ -1,5 +1,3 @@
-// const { DataTypes } = require('sequelize');
-
 module.exports = (sequelize, DataTypes) => {
   // const { DataTypes } = Sequelize;
   const Order = sequelize.define('Order', {
@@ -22,6 +20,16 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: 'updated_at',
     // paranoid: true
   })
+
+  Order.associate = models => {
+    Order.belongsToMany(models.Customer, { 
+      foreignKey: {
+        type: DataTypes.UUID,
+        allowNull: false,
+        name: 'customers_cid'
+      }
+    });
+  }
 
   return Order;
 }

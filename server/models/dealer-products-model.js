@@ -1,6 +1,3 @@
-// const db = require('../db');
-// const { DataTypes } = require('sequelize');
-
 module.exports = (sequelize, DataTypes) => {
   // const { DataTypes } = Sequelize;
   const DealerProduct = sequelize.define('DealerProduct', {
@@ -46,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
     // paranoid: true
   });
 
-  DealerProduct.associate = models => {
+  DealerProduct.associate = models => { // For starters this is the belongsTo association I would like to make my test for
     DealerProduct.belongsTo(models.Dealer, { 
       foreignKey: {
         type: DataTypes.UUID,
