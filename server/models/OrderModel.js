@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
   })
 
   Order.associate = models => {
-    Order.belongsToMany(models.Customer, { 
+    Order.belongsTo(models.Customer, { 
       foreignKey: {
         type: DataTypes.UUID,
         allowNull: false,

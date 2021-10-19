@@ -4,7 +4,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     price: {
-      type: DataTypes.DECIMAL(10, 2)
+      type: DataTypes.DECIMAL(10, 2),
+      // async get() {
+      //   // raw SQL from the Store-product price * quantity of this table
+      // }
     }
   }, {
     tableName: 'order_list',

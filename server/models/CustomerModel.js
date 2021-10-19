@@ -31,9 +31,16 @@ module.exports = (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING(50),
-      allowNull: false
+      allowNull: false,
+      unique: true
     }
   }, {
+    indexes: [
+      { 
+        unique: true, 
+        fields: ['email'] 
+      },
+    ],
     tableName: 'customers',
     timestamps: true,
     createdAt: 'created_at',

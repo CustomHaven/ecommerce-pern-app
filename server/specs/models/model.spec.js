@@ -1,24 +1,27 @@
+const chai = require("chai");
+const sinon = require("sinon");
+const sinonChai = require("sinon-chai");
+const proxyquire = require('proxyquire');
 const {
     sequelize,
     dataTypes,
     checkModelName,
     checkPropertyExists,
-    checkUniqueIndex
+    checkUniqueIndex,
+    makeMockModels
 } = require('sequelize-test-helpers');
-const chai = require("chai");
-const sinon = require("sinon");
-const sinonChai = require("sinon-chai");
+
 chai.should();
 chai.use(sinonChai)
 
 // Cannot require from the index.js because that file is connected to the real sequelize DB so we need to require them individually what a pain but oh well
-const UserModel = require('../../models/user-model');
-const DealerModel = require('../../models/dealers-model');
-const DealerProductModel = require('../../models/dealer-products-model');
-const CustomerModel = require('../../models/customers-model');
-const StoreProductModel = require('../../models/store-products-model');
-const OrderModel = require('../../models/orders-model');
-const OrderListModel = require('../../models/order-list-model');
+const UserModel = require('../../models/UserModel');
+const DealerModel = require('../../models/DealerModel');
+const DealerProductModel = require('../../models/DealerProductModel');
+const CustomerModel = require('../../models/CustomerModel');
+const StoreProductModel = require('../../models/StoreProductModel');
+const OrderModel = require('../../models/OrderModel');
+const OrderListModel = require('../../models/OrderListModel');
 
 describe('server/models/all', async () => {
   // Users
@@ -43,25 +46,22 @@ describe('server/models/all', async () => {
   const Order = OrderModel(sequelize, dataTypes);
   const order = new Order();
 
-  describe('server/models/user-model', async () => {
+  describe('server/models/UserModel', async () => {
 
     checkModelName(User)('User')
 
     describe('check all properties exist', () => {
-      // context('properties', () => {
-        ['is_admin', 'first_name', 'last_name', 'email', 'google_id', 'facebook_id'].forEach(checkPropertyExists(user))
-      // })
+      ['is_admin', 'first_name', 'last_name', 'email', 'google_id', 'facebook_id'].forEach(checkPropertyExists(user))
     }) 
 
-    // describe('check if unique constraint is working', () => {
-    //   context('unique', () => {
-    //     ['email'].forEach(checkUniqueIndex(user))
-    //   })
-    //   // ['email', 'first_name'].forEach(checkUniqueIndex(user))
-    // })
-  })
+    describe('check if unique constraint is working', () => {
+      context('unique', () => {
+        ['email'].forEach(checkUniqueIndex(user))
+      });
+    });
+  });
 
-  describe('server/models/dealer-products-model', async () => {
+  describe('server/models/DealerProductModel', async () => {
 
     checkModelName(DealerProduct)('DealerProduct');
 
@@ -83,7 +83,7 @@ describe('server/models/all', async () => {
     })
   });
 
-  describe('server/models/dealers-model', async () => {
+  describe('server/models/DealerModel', async () => {
 
     checkModelName(Dealer)('Dealer');
 
@@ -102,7 +102,7 @@ describe('server/models/all', async () => {
     });
   });
 
-  describe('server/models/store-products-model', async () => {
+  describe('server/models/StoreProductModel', async () => {
 
     checkModelName(StoreProduct)('StoreProduct');
 
@@ -128,13 +128,19 @@ describe('server/models/all', async () => {
     });
   });
 
-  describe('server/models/customers-model', async () => {
+  describe('server/models/CustomerModel', async () => {
 
     checkModelName(Customer)('Customer');
 
     describe('check all properties exist', () => {
         ['cid', 'first_name', 'last_name', 'address', 'zip_code', 'city', 'country', 'email'].forEach(checkPropertyExists(customer))
-    })
+    });
+
+    describe('check if unique constraint is working', () => {
+      context('unique', () => {
+        ['email'].forEach(checkUniqueIndex(customer))
+      });
+    });
 
     describe('check associations Fkeys', () => {
 
@@ -154,7 +160,7 @@ describe('server/models/all', async () => {
     });
   });
 
-  describe('server/models/orders-model', async () => {
+  describe('server/models/OrderModel', async () => {
 
     checkModelName(Order)('Order');
 
@@ -167,14 +173,14 @@ describe('server/models/all', async () => {
       before(() => {
         Order.associate( { Customer }  )
       });
-      it('defined a belongsToMany association with Order', () => {
-        chai.expect(Order.belongsToMany).to.have.been.calledWith(Customer);
+      it('defined a belongsTo association with Order', () => {
+        chai.expect(Order.belongsTo).to.have.been.calledWith(Customer);
       });
 
     });
   });
 
-  describe('server/models/order-list-model', async () => {
+  describe('server/models/OrderListModel', async () => {
 
     checkModelName(OrderList)('OrderList')
 
