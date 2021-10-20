@@ -1,24 +1,35 @@
 const Models = require('../models');
+const createError = require('http-errors');
 const { User } = Models;
 
 module.exports = class UserService {
 
-  async updateUser({id, ...data}) {
-    // const { id } = data
-    console.log('hi save here')
-    const user = await User.findOne({ where: { uid: id } })
-    if (user) {
+  async updateUser(id, data) {
+    try {
+      const user = await User.findOne({ where: { uid: id } })
+      if (!user) {
+        // throw createError(404, 'User Not Found') // find out how to include this without makinng the test fail
+        return null // test works for null case SO i wanted the error case instead
+      }
       return await user.update(data)
+    } catch (err) {
+      throw err
     }
-    return null
   }
 
-  async addUser(data) {
-    const user = User.create()
+  async addUser(data){
+    try{
+      const user = await User.create(data);
+      if (!user) {
+        return null;
+      }
+      return user
+    }catch(err){
+      return err;
+    }
   }
-
   async findByPks({id}) {
-    const user = await User.findOne
+    const user = await User.findOne()
   }
 
   firstName(name) {
