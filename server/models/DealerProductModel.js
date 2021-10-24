@@ -1,3 +1,14 @@
+const createError = require('http-errors');
+
+function CustomException(message, cause) {
+  const error = new Error(message);
+  // Object.assign(error, {code: error.value})
+  error.push({code: 404})
+  return error;
+}
+
+CustomException.prototype = Object.create(Error.prototype);
+
 module.exports = (sequelize, DataTypes) => {
   // const { DataTypes } = Sequelize;
   const DealerProduct = sequelize.define('DealerProduct', {
@@ -32,7 +43,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     quantity: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        customValidator(value) {
+          if (value === null || value <= 0) {
+            throw Error('Quantity value must be greater than 0')
+          }
+          return value
+        }
+      }
     }
   }, {
     tableName: 'dealer_products',

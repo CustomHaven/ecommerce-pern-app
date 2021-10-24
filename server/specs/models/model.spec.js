@@ -23,7 +23,7 @@ const StoreProductModel = require('../../models/StoreProductModel');
 const OrderModel = require('../../models/OrderModel');
 const OrderListModel = require('../../models/OrderListModel');
 
-describe('server/models/all', async () => {
+describe('/models/all', async () => {
   // Users
   const User = UserModel(sequelize, dataTypes)
   const user = new User()
@@ -46,7 +46,7 @@ describe('server/models/all', async () => {
   const Order = OrderModel(sequelize, dataTypes);
   const order = new Order();
 
-  describe('server/models/UserModel', async () => {
+  describe('/models/UserModel', async () => {
 
     checkModelName(User)('User')
 
@@ -61,7 +61,7 @@ describe('server/models/all', async () => {
     });
   });
 
-  describe('server/models/DealerProductModel', async () => {
+  describe('/models/DealerProductModel', async () => {
 
     checkModelName(DealerProduct)('DealerProduct');
 
@@ -83,7 +83,7 @@ describe('server/models/all', async () => {
     })
   });
 
-  describe('server/models/DealerModel', async () => {
+  describe('/models/DealerModel', async () => {
 
     checkModelName(Dealer)('Dealer');
 
@@ -102,7 +102,7 @@ describe('server/models/all', async () => {
     });
   });
 
-  describe('server/models/StoreProductModel', async () => {
+  describe('/models/StoreProductModel', async () => {
 
     checkModelName(StoreProduct)('StoreProduct');
 
@@ -128,7 +128,7 @@ describe('server/models/all', async () => {
     });
   });
 
-  describe('server/models/CustomerModel', async () => {
+  describe('/models/CustomerModel', async () => {
 
     checkModelName(Customer)('Customer');
 
@@ -160,7 +160,7 @@ describe('server/models/all', async () => {
     });
   });
 
-  describe('server/models/OrderModel', async () => {
+  describe('/models/OrderModel', async () => {
 
     checkModelName(Order)('Order');
 
@@ -180,7 +180,7 @@ describe('server/models/all', async () => {
     });
   });
 
-  describe('server/models/OrderListModel', async () => {
+  describe('/models/OrderListModel', async () => {
 
     checkModelName(OrderList)('OrderList')
 

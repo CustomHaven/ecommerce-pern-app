@@ -4,10 +4,11 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "test": "mocha specs/**/*.js --watch",
     "test:model": "mocha specs/models/model.spec.js --watch",
-    "test:service": "mocha specs/services/user-service.spec.js --watch",
+    "test:service": "mocha specs/services/* --watch",
     "start": "nodemon server.js",
-    "go": "node models/index.js"
+    "goDB": "node models/index.js"
   },
   "keywords": [],
   "author": "",

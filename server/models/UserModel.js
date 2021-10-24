@@ -32,9 +32,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     google_id: {
       type: DataTypes.STRING,
+      defaultValue: null
     },
     facebook_id: {
       type: DataTypes.STRING,
+      defaultValue: null
     }
   }, {
     indexes: [
