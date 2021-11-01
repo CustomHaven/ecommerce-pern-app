@@ -45,8 +45,27 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
+    // hooks: {
+    //   beforeCreate(record, options) {
+    //       record.dataValues.created_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    //       record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    //   },
+    //   beforeUpdate(record, options) {
+    //       record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    //   }
+    // },
+    charset: 'utf8',
+    collate: 'utf8_general_ci'
     // paranoid: true
-  })
+  });
+
+  Customer.addHook('beforeCreate', (record, options) => {
+    record.dataValues.created_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+  });
+  Customer.addHook('beforeUpdate', (record, options) => {
+    record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+  });
 
   Customer.associate = models => {
     Customer.belongsToMany(models.StoreProduct, { 

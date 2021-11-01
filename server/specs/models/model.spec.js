@@ -1,20 +1,18 @@
 const chai = require("chai");
-const sinon = require("sinon");
 const sinonChai = require("sinon-chai");
-const proxyquire = require('proxyquire');
 const {
     sequelize,
     dataTypes,
     checkModelName,
     checkPropertyExists,
     checkUniqueIndex,
-    makeMockModels
+    checkHookDefined
 } = require('sequelize-test-helpers');
 
 chai.should();
 chai.use(sinonChai)
 
-// Cannot require from the index.js because that file is connected to the real sequelize DB so we need to require them individually what a pain but oh well
+// Cannot require from the index.js because that file is connected to the real sequelize DB so we need to require them individually what a shame but oh well
 const UserModel = require('../../models/UserModel');
 const DealerModel = require('../../models/DealerModel');
 const DealerProductModel = require('../../models/DealerProductModel');
@@ -59,6 +57,10 @@ describe('/models/all', async () => {
         ['email'].forEach(checkUniqueIndex(user))
       });
     });
+
+    context('Has Hook User', () => {
+      ;['beforeCreate', 'beforeUpdate'].forEach(checkHookDefined(user));
+    });
   });
 
   describe('/models/DealerProductModel', async () => {
@@ -67,7 +69,11 @@ describe('/models/all', async () => {
 
     describe('check all properties exist', () => {
         ['dpid', 'product_name', 'type', 'description', 'price', 'quantity'].forEach(checkPropertyExists(dealerProduct))
-    })
+    });
+
+    context('Has Hook DealerProduct', () => {
+      ;['beforeCreate', 'beforeUpdate'].forEach(checkHookDefined(dealerProduct));
+    });
 
     describe('check associations FKEYs', () => {
 
@@ -91,6 +97,10 @@ describe('/models/all', async () => {
         ['did', 'name', 'description'].forEach(checkPropertyExists(dealer))
     })
 
+    context('Has Hook Dealer', () => {
+      ;['beforeCreate', 'beforeUpdate'].forEach(checkHookDefined(dealer));
+    });
+
     describe('check associations Fkeys', () => {
 
       before(() => {
@@ -108,7 +118,11 @@ describe('/models/all', async () => {
 
     describe('check all properties exist', () => {
         ['spid', 'product_name', 'type', 'description', 'price', 'quantity'].forEach(checkPropertyExists(storeProduct))
-    })
+    });
+
+    context('Has Hook StoreProduct', () => {
+      ;['beforeCreate', 'beforeUpdate'].forEach(checkHookDefined(storeProduct));
+    });
 
     describe('check associations Fkeys', () => {
 
@@ -142,6 +156,10 @@ describe('/models/all', async () => {
       });
     });
 
+    context('Has Hook Customer', () => {
+      ;['beforeCreate', 'beforeUpdate'].forEach(checkHookDefined(customer));
+    });
+
     describe('check associations Fkeys', () => {
 
       before(() => {
@@ -166,7 +184,11 @@ describe('/models/all', async () => {
 
     describe('check all properties exist', () => {
         ['oid', 'status_completed', 'final_price'].forEach(checkPropertyExists(order))
-    })
+    });
+
+    context('Has Hook Order', () => {
+      ;['beforeCreate', 'beforeUpdate'].forEach(checkHookDefined(order));
+    });
 
     describe('check associations Fkeys', () => {
 
@@ -186,6 +208,10 @@ describe('/models/all', async () => {
 
     describe('check all properties exist', () => {
         ['quantity', 'price'].forEach(checkPropertyExists(orderList))
+    });
+
+    context('Has Hook OrderList', () => {
+      ;['beforeCreate', 'beforeUpdate'].forEach(checkHookDefined(orderList));
     });
   });
 });

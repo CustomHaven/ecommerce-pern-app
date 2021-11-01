@@ -58,8 +58,27 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
+    // hooks: {
+    //   beforeCreate(record, options) {
+    //       record.dataValues.created_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    //       record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    //   },
+    //   beforeUpdate(record, options) {
+    //       record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    //   }
+    // },
+    charset: 'utf8',
+    collate: 'utf8_general_ci'
     // freezeTableName: true
     // paranoid: true
+  });
+
+  DealerProduct.addHook('beforeCreate', (record, options) => {
+    record.dataValues.created_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+  });
+  DealerProduct.addHook('beforeUpdate', (record, options) => {
+    record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
   });
 
   DealerProduct.associate = models => { // For starters this is the belongsTo association I would like to make my test for

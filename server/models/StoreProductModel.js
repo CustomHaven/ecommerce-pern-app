@@ -32,16 +32,43 @@ module.exports = (sequelize, DataTypes) => {
     },
     quantity: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        customValidator(value) {
+          if (value === null || value <= 0) {
+            throw Error('Quantity value must be greater than 0')
+          }
+          return value
+        }
+      }
     }
   }, {
     tableName: 'store_products',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
+    // hooks: {
+    //   beforeCreate(record, options) {
+    //       record.dataValues.created_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    //       record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    //   },
+    //   beforeUpdate(record, options) {
+    //       record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    //   }
+    // },
+    charset: 'utf8',
+    collate: 'utf8_general_ci'
     // freezeTableName: true
     // paranoid: true
-  })
+  });
+
+  StoreProduct.addHook('beforeCreate', (record, options) => {
+    record.dataValues.created_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+  });
+  StoreProduct.addHook('beforeUpdate', (record, options) => {
+    record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+  });
 
   StoreProduct.associate = models => {
     StoreProduct.belongsTo(models.DealerProduct, {

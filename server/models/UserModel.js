@@ -49,8 +49,25 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at',
+    // hooks: {
+    //   beforeCreate: (record, options) => {
+    //       record.dataValues.created_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    //       record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    //   },
+    //   beforeUpdate: (record, options) => {
+    //       record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    //   }
+    // },
+    charset: 'utf8',
+    collate: 'utf8_general_ci'
     // paranoid: true
   })
-
+  User.addHook('beforeCreate', (record, options) => {
+    record.dataValues.created_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+  });
+  User.addHook('beforeUpdate', (record, options) => {
+    record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+  });
   return User;
 }

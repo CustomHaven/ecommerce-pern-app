@@ -38,7 +38,7 @@ module.exports = class StoreProductService {
       return null
     } catch (error) {
       if (error.message === 'Validation error: Quantity value must be greater than 0') {
-        error.message = error.message.replace(/\w{10}\s\w{5}\:\s/gi, '');
+        error.message = error.message.replace(/\w{10}\s\w{5}:\s/gi, '');
         error.status = 406
         throw error
       }
