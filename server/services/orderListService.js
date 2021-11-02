@@ -67,8 +67,12 @@ module.exports = class OLService {
         include: [{
           model: StoreProduct,
           through: {
-            [Sequelize.Op.between]: [lowerBound, upperBound],
-            as: OrderList.name
+            as: 'CartList',
+            where: {
+              created_at: {
+                [Sequelize.Op.between]: [lowerBound, upperBound]
+              }
+            }
           }
         }]
       });
