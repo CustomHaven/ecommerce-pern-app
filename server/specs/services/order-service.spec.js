@@ -38,14 +38,18 @@ describe('/server/services/orderListService, this service has got many-to-many a
     let up;
     const data = dataArray.find(dd => dd.customers_cid)
 
-
-    describe('add a new order and orderList', () => {
+    const store = storeProductArray.data[0]
+    describe.skip('add a new order and orderList', () => {
       describe('successfully added a new order and a list of orderList', () => {
         // console.log(mockModels)
         before(async () => {
 
           mockModels.StoreProduct.findByPk.withArgs(dataArray[0].customers_cid).resolves(customerArray);
           mockModels.Customer.findByPk.withArgs(dataArray[0].store_products_spid).resolves(storeProductArray);
+
+          storeProductArray.update.withArgs({ 
+            quantity: store.dataValues.quantity - data.quantity
+          })
 
           // dataArray.map(unit => mockModels.Customer.findByPk.withArgs(unit.store_products_spid)).resolves(storeProductArray);
           // // mockModels.StoreProduct.findByPk.withArgs(dataArray)

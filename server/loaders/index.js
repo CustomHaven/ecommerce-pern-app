@@ -11,9 +11,10 @@ module.exports = async (app, express) => {
   // app.use(expressWinston.errorLogger(loggers))
   app.use((err, req, res, next) => {
     const { message, httpStatusCode, code, status } = err;
-    console.log(err)
-    loggers.http(status);
-    loggers.error(message)
+    // console.log(err)
+    // loggers.http(status);
+    // loggers.error(message)
     return res.status(status === undefined ? 500 : status).send({ message });
   });
+  return app
 }

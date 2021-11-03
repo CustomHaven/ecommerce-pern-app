@@ -40,17 +40,18 @@ module.exports = class UserService {
     }
   }
 
-  async addUser(data){
+  async addUser(data) {
     try{
       const user = await User.create(data);
       if (!user) {
         return null;
       }
       return user
-    }catch(err){
-      return err;
+    } catch(err) {
+      throw err;
     }
   }
+  
   async findByPrimaryKey(id) {
     try {
       const user = await User.findByPk(id);

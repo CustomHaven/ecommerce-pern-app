@@ -93,7 +93,7 @@ describe('/server/services/dealerProductService, this service has got associatio
     describe('Success in finding a dealer/supplier product', () => {
       before(async () => {
         mockModels.DealerProduct.findOne.withArgs({ where: { dpid: pKey } }).resolves(oneObject);
-        result = await dealerProductService.foundDealerProduct(pKey);
+        result = await dealerProductService.findDealerProduct(pKey);
       });
       after(() => {
         sinon.reset();
@@ -111,7 +111,7 @@ describe('/server/services/dealerProductService, this service has got associatio
     describe('failure to find a dealer/supplier product', () => {
       before(async () => {
         mockModels.DealerProduct.findOne.withArgs({ where: { dpid: pKey } }).resolves(null);
-        result = await dealerProductService.foundDealerProduct(pKey);
+        result = await dealerProductService.findDealerProduct(pKey);
       });
       after(() => {
         sinon.reset();

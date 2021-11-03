@@ -123,7 +123,7 @@ describe('/server/services/customerService', () => {
     describe('Success in finding a customer', () => {
       before(async () => {
         mockModels.Customer.findOne.withArgs({ where: { cid: id } }).resolves(oneCustomer);
-        result = await customerService.foundCustomer(id);
+        result = await customerService.findCustomer(id);
       });
       after(() => {
         sinon.reset();
@@ -141,7 +141,7 @@ describe('/server/services/customerService', () => {
     describe('failure to find a customer', () => {
       before(async () => {
         mockModels.Customer.findOne.withArgs({ where: { cid: id } }).resolves(null);
-        result = await customerService.foundCustomer(id);
+        result = await customerService.findCustomer(id);
       });
       after(() => {
         sinon.reset();

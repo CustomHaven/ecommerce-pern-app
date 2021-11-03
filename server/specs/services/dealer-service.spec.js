@@ -102,7 +102,7 @@ describe('/server/services/dealerService', () => {
     describe('Success in finding a dealer/supplier', () => {
       before(async () => {
         mockModels.Dealer.findOne.withArgs({ where: { did: id } }).resolves(oneDealer);
-        result = await dealerService.foundDealer(id);
+        result = await dealerService.findDealer(id);
       });
       after(() => {
         sinon.reset();
@@ -120,7 +120,7 @@ describe('/server/services/dealerService', () => {
     describe('failure to find a dealer/supplier', () => {
       before(async () => {
         mockModels.Dealer.findOne.withArgs({ where: { did: id } }).resolves(null);
-        result = await dealerService.foundDealer(id);
+        result = await dealerService.findDealer(id);
       });
       after(() => {
         sinon.reset();

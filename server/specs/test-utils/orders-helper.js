@@ -29,7 +29,9 @@ const dataArray = [
   }
 ]
 
-const customerArray = [
+const customerArray = {
+  update: sinon.stub(),
+  data: [
   {
     dataValues: {
       cid: "74c08f49-b763-440e-b484-4571b942f400",
@@ -72,9 +74,11 @@ const customerArray = [
       updated_at: "2021-10-25T15:38:29.000Z"
     }
   }
-]
+]}
 
-const storeProductArray = [
+const storeProductArray = {
+  update: sinon.stub(),
+  data: [
   {
     dataValues: {
       spid: "939ac186-4526-42bd-af15-dc3d65518cfc",
@@ -114,7 +118,7 @@ const storeProductArray = [
       dealer_product_dpid: "d020bd58-24af-4e79-9f95-ab6e0a2c39cf"
     }
   }
-]
+]}
 
 const listArray = [
   {

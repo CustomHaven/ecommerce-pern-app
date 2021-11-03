@@ -103,7 +103,7 @@ describe('/server/services/storeProductService, this service has got association
     describe('Success in finding a storeProduct', () => {
       before(async () => {
         mockModels.StoreProduct.findOne.withArgs({ where: { spid: pKey } }).resolves(oneObject);
-        result = await storeProductService.foundStoreProduct(pKey);
+        result = await storeProductService.findStoreProduct(pKey);
       });
       after(() => {
         sinon.reset();
@@ -121,7 +121,7 @@ describe('/server/services/storeProductService, this service has got association
     describe('failure to find a storeProduct', () => {
       before(async () => {
         mockModels.StoreProduct.findOne.withArgs({ where: { spid: pKey } }).resolves(null);
-        result = await storeProductService.foundStoreProduct(pKey);
+        result = await storeProductService.findStoreProduct(pKey);
       });
       after(() => {
         sinon.reset();

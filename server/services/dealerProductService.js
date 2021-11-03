@@ -33,7 +33,7 @@ module.exports = class DealerProductService {
     }
   }
 
-  async foundDealerProduct(id) {
+  async findDealerProduct(id) {
     try {
       const dealer = await DealerProduct.findOne({ where: { dpid: id } });
       if (dealer) {

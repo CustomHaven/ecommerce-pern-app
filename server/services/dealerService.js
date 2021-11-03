@@ -27,7 +27,7 @@ module.exports = class DealerService {
     }
   }
 
-  async foundDealer(id) {
+  async findDealer(id) {
     try {
       const dealer = await Dealer.findOne({ where: { did: id } });
       if (dealer) {

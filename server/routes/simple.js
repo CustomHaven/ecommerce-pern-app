@@ -67,12 +67,13 @@ module.exports = (app)=> {
 
   simpleRouter.put('/:id', async (req, res) => {
     try {
-      const add = await dealerService.updateDealer(req.params.id, req.body)
+      const add = await userService.updateUser(req.params.id, req.body)
       console.log(add)
       res.status(201).send(add);
       
     } catch (error) {
       logger.debug(error)
+      next(error)
     }
   })
 }

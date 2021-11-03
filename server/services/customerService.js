@@ -27,7 +27,7 @@ module.exports = class CustomerService {
     }
   }
 
-  async foundCustomer(id) {
+  async findCustomer(id) {
     try {
       const customer = await Customer.findOne({ where: { cid: id } });
       if (customer) {
