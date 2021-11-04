@@ -11,7 +11,6 @@ fs.readdirSync(__dirname)
   // .map(a => a.replace(/[-]|model|\.js$/gi, ''))
   // .map(l => l.replace(/s$/, ''))
   .forEach((file) => {
-    // console.log(file)
     const model = require(path.join(__dirname, file))(db, DataTypes);
     Models[model.name] = model;
 });

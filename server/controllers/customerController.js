@@ -16,7 +16,6 @@ exports.findAll = async (req, res, next) => {
 
 exports.findACustomer = async (req, res, next) => {
   try {
-    //   console.log(req.params.id)
     const customer = await customerService.findCustomer(req.params.id);
     if (!customer) {
       throw createError(404, 'Customer not found')
@@ -59,10 +58,3 @@ exports.removeCustomer = async (req, res, next) => {
     next(error)
   }
 }
-
-/*findAllCustomers()
-addCustomer(data)
-findCustomer(id)
-findByPrimaryKey(id)
-updateCustomer(id, data)
-deleteCustomer(id)//*/

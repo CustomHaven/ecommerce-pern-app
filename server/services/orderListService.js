@@ -111,7 +111,6 @@ module.exports = class OLService {
             parseFloat(parseFloat(store.dataValues.price * col.quantity).toFixed(2))
         ).join('').replace(/false/g, ''))
       }))
-      // console.log(ols)
       const finalPrice = ols.map(ol => ol.price);
 
       const orderList = await Promise.all(ols.map(service => OrderList.create(service)))

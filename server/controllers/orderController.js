@@ -16,7 +16,6 @@ exports.findAllOrders = async (req, res, next) => {
 
 exports.findAllOrderList = async (req, res, next) => {
   try {
-    console.log('are we here?!!!!!')
     const order = await olService.findAllOrderList();
     if (!order) {
       throw createError(404, 'No ordered items found')
@@ -50,9 +49,3 @@ exports.addOrder = async (req, res, next) => { //careful here many different err
     next(error)
   }
 }
-
-
-/*findAllOrders()//
-findAllOrderList()//
-findYourOrder(id)//
-addOrderList(data) /double check*/

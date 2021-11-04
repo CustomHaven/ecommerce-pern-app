@@ -11,6 +11,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
       lowercase: true,
+      // set(value) {
+      //   return value.toLowerCase()
+      // },
+      // get() {
+      //   return this.dataValues.email
+      // },
       validate: {
         isEmail: true,
         notEmpty: true
@@ -65,9 +71,19 @@ module.exports = (sequelize, DataTypes) => {
   User.addHook('beforeCreate', (record, options) => {
     record.dataValues.created_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
     record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    for (const key in record.dataValues) {
+      if (typeof record.dataValues[key] === 'string' && key !== 'uid' && key !== 'password') {
+        record.dataValues[key] = record.dataValues[key].toLowerCase()
+      }
+    }
   });
   User.addHook('beforeUpdate', (record, options) => {
     record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    for (const key in record.dataValues) {
+      if (typeof record.dataValues[key] === 'string' && key !== 'uid' && key !== 'password') {
+        record.dataValues[key] = record.dataValues[key].toLowerCase()
+      }
+    }
   });
   return User;
 }

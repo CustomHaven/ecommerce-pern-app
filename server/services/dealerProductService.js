@@ -1,5 +1,6 @@
 const Models = require('../models');
 const { DealerProduct, Dealer } = Models;
+const createError = require('http-errors');
 
 module.exports = class DealerProductService {
   
@@ -17,17 +18,16 @@ module.exports = class DealerProductService {
 
   async addDealerProduct(data) {
     try {
-      console.log('we are in dealer serv')
       const dealerId = await Dealer.findByPk(data.dealers_did)
-      console.log('right below dealerId')
       if (!dealerId) {
+        throw createError(500, 'Associated supplier not inserted or is incorrect')
+      } else {
+        const dealer = await DealerProduct.create({...data, dealers_did: dealerId.dataValues.did });
+        if (dealer) {
+          return dealer
+        };
         return null
       }
-      const dealer = await DealerProduct.create({...data, dealers_did: dealerId.dataValues.did });
-      if (dealer) {
-        return dealer
-      };
-      return null
     } catch (error) {
       throw error
     }

@@ -1,12 +1,20 @@
 const expressLoader = require('./express');
-const routeLoader = require('../routes');
+const routeLoaderV1 = require('../routes');
 const expressWinston = require('express-winston');
 const loggers = require('../loggers');
+const swaggerLoader = require('./swagger');
 
 module.exports = async (app, express) => {
   await expressLoader(app, express);
+  // app.use('/api/v1', routeLoaderV1);
 
-  await routeLoader(app);
+  await routeLoaderV1(app);
+
+
+  // Load Swagger
+  await swaggerLoader(app);
+
+
 
   // app.use(expressWinston.errorLogger(loggers))
   app.use((err, req, res, next) => {

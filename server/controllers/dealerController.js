@@ -16,7 +16,6 @@ exports.findAll = async (req, res, next) => {
 
 exports.findADealer = async (req, res, next) => {
   try {
-    //   console.log(req.params.id)
     const dealer = await dealerService.findDealer(req.params.id);
     if (!dealer) {
       throw createError(404, 'Dealer/Supplier was not found')
@@ -59,10 +58,3 @@ exports.removeDealer = async (req, res, next) => {
     next(error)
   }
 }
-
-/*findAllDealers()//
-addDealer(data)//
-findDealer(id)//
-findByPrimaryKey(id)
-updateDealer(id, data)
-deleteDealer(id)//*/

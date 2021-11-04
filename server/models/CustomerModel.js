@@ -62,9 +62,19 @@ module.exports = (sequelize, DataTypes) => {
   Customer.addHook('beforeCreate', (record, options) => {
     record.dataValues.created_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
     record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    for (const key in record.dataValues) {
+      if (typeof record.dataValues[key] === 'string' && key !== 'cid') {
+        record.dataValues[key] = record.dataValues[key].toLowerCase()
+      }
+    }
   });
   Customer.addHook('beforeUpdate', (record, options) => {
     record.dataValues.updated_at = new Date().toISOString().replace(/T/, ' ').replace(/\..+/g, '');
+    for (const key in record.dataValues) {
+      if (typeof record.dataValues[key] === 'string' && key !== 'cid') {
+        record.dataValues[key] = record.dataValues[key].toLowerCase()
+      }
+    }
   });
 
   Customer.associate = models => {

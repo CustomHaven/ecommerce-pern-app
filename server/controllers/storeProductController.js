@@ -16,7 +16,6 @@ exports.findAll = async (req, res, next) => {
 
 exports.findAStoreProduct = async (req, res, next) => {
   try {
-    //   console.log(req.params.id)
     const product = await storeProductService.findStoreProduct(req.params.id);
     if (!product) {
       throw createError(404, 'Product not found')
@@ -62,10 +61,3 @@ exports.removeStoreProduct = async (req, res, next) => {
     next(error)
   }
 }
-
-/*findAllStoreProducts() //
-addStoreProduct(data)//
-findStoreProduct(id)//
-findByPrimaryKey(id)
-updateStoreProduct(id, data)//
-deleteStoreProduct(id)//*/

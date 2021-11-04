@@ -11,16 +11,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(100),
       allowNull: false,
       unique: true,
-      // validate: {
-      //   len: [1, 100]
-      // }
     },
     type: {
       type: DataTypes.STRING(25),
       allowNull: true,
-    //   validate: {
-    //     len: [1, 100]
-    //   }
     },
     description: {
       type: DataTypes.TEXT,

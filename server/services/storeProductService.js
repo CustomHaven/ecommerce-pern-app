@@ -20,10 +20,7 @@ module.exports = class StoreProductService {
     try {
       const dealerId = await DealerProduct.findByPk(data.dealer_product_dpid)
       if (!dealerId) {
-        // throw Error("Dealer/Supplier was not found")
-        throw createError(404, "Dealer/Supplier was not found")
-        // return null
-        // return { message: 'Dealer/Supplier was not found' }
+        throw createError(500, 'Associated supplier not inserted or is incorrect')
       }
       await dealerId.update({
         quantity: parseInt(dealerId.dataValues.quantity - data.quantity)

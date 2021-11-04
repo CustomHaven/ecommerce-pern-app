@@ -40,6 +40,7 @@ exports.updateUser = async (req, res, next) => {
 
 exports.addUser = async (req, res, next) => {
   try {
+    req.body.is_admin = false
     const user = await userService.addUser(req.body);
     res.status(201).send(user)
   } catch (error) {
@@ -58,10 +59,3 @@ exports.removeUser = async (req, res, next) => {
     next(error)
   }
 }
-
-/*findAllUsers()//
-findOneUser(id)//
-updateUser(id, data)//
-addUser(data)//
-findByPrimaryKey(id)leave
-deleteUser(id)//*/
