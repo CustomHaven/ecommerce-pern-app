@@ -1,5 +1,7 @@
 const userController = require('../controllers/userController');
 const router = require('express').Router();
+const validInfo = require('../middleware/validInfo');
+const authorization = require('../middleware/authorization');
 
 module.exports = (app) => {
   app.use('/api/v1/user', router);
@@ -57,7 +59,7 @@ module.exports = (app) => {
 
  /**
   * @swagger
-  * /api/v1/user:
+  * /api/v1/user/register:
   *     post:
   *       tags: [Users]
   *       summary: Create a new user
@@ -81,7 +83,18 @@ module.exports = (app) => {
   *           description: Internal Server Error 
   *           content: {}
   */
-  router.post('/', userController.addUser)
+  router.post('/register', validInfo, userController.addUser);
+  // do swagger and supertest for these
+  router.post('/login', validInfo, userController.loginUser);
+  // do swagger and supertest for these
+  router.get('/verify', authorization, (req, res, next) => {
+    try {
+      res.status(200).json(true);
+    } catch (error) {
+      // res.status(500).send("Server error");
+      next(error);
+    }
+  })
 
  /**
   * @swagger
@@ -176,3 +189,15 @@ module.exports = (app) => {
 
   return router
 }
+
+/*
+  router.get('/', userController.findAll)
+  router.post('/register', validInfo, userController.addUser);
+  router.post('/login', validInfo, userController.loginUser);
+  router.get('/verify', authorization, (req, res, next) => {
+  router.get('/:id', userController.findAUser)
+  router.put('/:id', userController.updateUser)
+  router.delete('/:id', userController.removeUser)
+*/
+
+// maybe make a dashboard page for user specific page so user can update their info etc

@@ -1,8 +1,8 @@
 const { Sequelize } = require('sequelize');
 const logger = require('../loggers');
-const { DB } = require('../config');
+const { DB, TOKEN } = require('../config');
 
-
+// console.log(TOKEN)
 // // Override timezone formatting /// OR USE HOOKS INSIDE THE INDIVIDUAL MODELS
 // Sequelize.DATE.prototype._stringify = function _stringify(date, options) {
 //   date = this._applyTimezone(date, options);

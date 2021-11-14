@@ -1,5 +1,7 @@
+const bcrypt = require('bcryptjs');
 const UserService = require('../services/userService');
 const userService = new UserService();
+const jwtGenerator = require('../utils/jwtGenerator');
 const createError = require('http-errors');
 
 exports.findAll = async (req, res, next) => {
@@ -41,8 +43,36 @@ exports.updateUser = async (req, res, next) => {
 exports.addUser = async (req, res, next) => {
   try {
     req.body.is_admin = false
+    req.body.password = String(req.body.password);
     const user = await userService.addUser(req.body);
-    res.status(201).send(user)
+
+    const token = jwtGenerator(user.uid);
+
+    res.status(201).json({ token });
+  } catch (error) {
+    next(error)
+  }
+}
+
+exports.loginUser = async (req, res, next) => {
+  try {
+    req.body.password = String(req.body.password);
+    const user = await userService.findByEmail(req.body.email);
+    if (!user) {
+      throw createError(404, 'User not found');
+    }
+
+    const compare = await bcrypt.compare(req.body.password, user.password);
+    if (!compare) {
+        throw createError(401, 'Incorrect password.', { expose: true });
+    }
+
+    // console.log(user)
+        
+    
+    const token = jwtGenerator(user.uid);
+
+    res.status(201).json({ token });
   } catch (error) {
     next(error)
   }

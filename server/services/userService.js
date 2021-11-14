@@ -1,4 +1,5 @@
 const Models = require('../models');
+const bcrypt = require('bcryptjs');
 const { User } = Models;
 
 module.exports = class UserService {
@@ -27,6 +28,18 @@ module.exports = class UserService {
     }
   }
 
+  async findByEmail(email) {
+    try {
+      const user = await User.findOne({ where: { email }})
+      if (user) {
+        return user
+      }
+      return null
+    } catch (err) {
+      throw err
+    }
+  }
+
   async updateUser(id, data) {
     try {
       const user = await User.findByPk(id);
@@ -42,6 +55,9 @@ module.exports = class UserService {
 
   async addUser(data) {
     try{
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(data.password, salt);
+      data.password = hash
       const user = await User.create(data);
       if (!user) {
         return null;
