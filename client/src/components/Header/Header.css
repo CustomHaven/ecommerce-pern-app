@@ -1,0 +1,29 @@
+header { /* add position: fixed when the hero banner image is made */
+  padding: 20px;
+	background: white; /* change to white or some light color when the banner image is made */
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	/* margin: 0 auto; */
+}
+
+nav {
+	width: 60%;
+	/* background-color: green; */
+}
+
+header ul {
+	list-style-type: none;
+	display: flex;
+	justify-content: space-between;
+}
+
+header ul li:last-child {
+	width: 15%;
+}
+
+header ul li:last-child div {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}

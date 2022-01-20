@@ -1,22 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import Header from './components/Header/Header';
+import Banner from './components/Banner/Banner';
 
 function App() {
-  const [test, setTest] = useState('');
-
-  const getData = async () => {
-    const response = await fetch('/hi');
-    console.log(response)
-    const jsonData = await response.json();
-    console.log(jsonData)
-    setTest(jsonData);
-  }
-
-  useEffect(() => {
-    getData()
-  }, [test])
+  // TODO
+  // consider making the paths with react-router-dom
   return (
     <div>
-      <p>{test}</p>
+      <Header />
+      <Banner />
     </div>
   );
 }

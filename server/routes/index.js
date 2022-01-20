@@ -4,6 +4,7 @@ const dealerRouter = require('./dealer');
 const dealerProductRouter = require('./dealerProduct');
 const storeProductRouter = require('./storeProduct');
 const orderRouter = require('./order');
+const supplierRouter = require('./supplier');
 
 module.exports = (app) => {
   userRouter(app);
@@ -12,6 +13,7 @@ module.exports = (app) => {
   dealerProductRouter(app);
   storeProductRouter(app);
   orderRouter(app);
+  supplierRouter(app);
   
   return app
 }
